@@ -63,6 +63,13 @@ class block_dash extends block_base {
     public function specialization() {
         global $OUTPUT;
 
+        // Verify the dash output is disabled, then use the default title for the block. stop execution here.
+        if (block_dash_is_disabled()) {
+            // Use default block title.
+            $this->title = get_string('newblock', 'block_dash');
+            return false;
+        }
+
         if (isset($this->config->title)) {
             $this->title = $this->title = format_string($this->config->title, true, ['context' => $this->context]);
         } else {
@@ -73,9 +80,12 @@ class block_dash extends block_base {
             $bb = block_builder::create($this);
             if ($bb->is_collapsible_content_addon()) {
                 $addclass = "collapsible-block dash-block-collapse-icon";
-                if (!$bb->is_section_expand_content_addon()) {
+
+                $data = ['collapseaction' => true];
+                if (!$bb->get_configuration()->get_data_source()->is_section_expand_content_addon($data)) {
                     $addclass .= " collapsed";
                 }
+
                 $attr = [
                     'data-toggle' => 'collapse',
                     'class' => $addclass,
@@ -210,10 +220,18 @@ class block_dash extends block_base {
         try {
             $bb = block_builder::create($this);
 
+            if (!$bb->get_configuration()) {
+                return $this->content->text = get_string('missingdatasource', 'block_dash');
+            }
+
             $datasource = $bb->get_configuration()->get_data_source();
             // Conditionally hide the block when empty.
-            if ($datasource && isset($this->config->hide_when_empty) && $this->config->hide_when_empty
-                && (($datasource->is_widget() && $datasource->is_empty())
+            $hidewhenempty = get_config('block_dash', 'hide_when_empty');
+            if (isset($this->config->hide_when_empty)) {
+                $hidewhenempty = $this->config->hide_when_empty;
+            }
+
+            if ($datasource && $hidewhenempty && (($datasource->is_widget() && $datasource->is_empty())
                 || (!$datasource->is_widget() && $datasource->get_data()->is_empty()))
                 && !$this->page->user_is_editing()) {
                 return $this->content;
@@ -241,10 +259,14 @@ class block_dash extends block_base {
     public function html_attributes() {
         $attributes = parent::html_attributes();
         if (isset($this->config->css_class)) {
-            $cssclasses = explode(",", $this->config->css_class);
+            $cssclasses = $this->config->css_class;
+            if (!is_array($cssclasses)) {
+                $cssclasses = explode(',', $cssclasses);
+            }
             foreach ($cssclasses as $class) {
                 $attributes['class'] .= ' ' . trim($class);
             }
+
         }
         if (isset($this->config->width)) {
             $attributes['class'] .= ' dash-block-width-' . $this->config->width;
@@ -314,14 +336,18 @@ class block_dash extends block_base {
         if (isset($this->config->css) && is_array($this->config->css)) {
             foreach ($this->config->css as $property => $value) {
                 if (!empty($value)) {
-                    if ($property == 'border') {
-                        if ($this->config->border_option) {
-                            $blockcss[] = sprintf('%s: %s;', $property, $value);
-                        }
-                    } else {
-                        $blockcss[] = sprintf('%s: %s;', $property, $value);
-                    }
+                    $blockcss[] = sprintf('%s: %s;', $property, $value);
                 }
+            }
+        }
+
+        if (isset($this->config->border_option)) {
+            if ($this->config->border_option) {
+                $bordervalue = isset($this->config->border) && ($this->config->border) ? $this->config->border
+                    : "1px solid rgba(0,0,0,.125)";
+                $blockcss[] = sprintf('%s: %s;', 'border', $bordervalue);
+            } else {
+                $blockcss[] = sprintf('%s: %s;', 'border', "none");
             }
         }
 

@@ -37,6 +37,13 @@ require_once($CFG->dirroot.'/lib/tablelib.php');
 class members extends \table_sql implements dynamic_table {
 
     /**
+     * Group filter value.
+     *
+     * @var string
+     */
+    protected $group;
+
+    /**
      * Define table field definitions and filter data
      *
      * @param int $pagesize
@@ -125,5 +132,11 @@ class members extends \table_sql implements dynamic_table {
      */
     public function col_roles($row) {
         return get_user_roles_in_course($row->userid, $row->courseid);
+    }
+
+
+    #[\Override]
+    public function has_capability(): bool {
+        return true;
     }
 }

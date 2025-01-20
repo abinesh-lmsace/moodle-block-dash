@@ -136,8 +136,8 @@ $string['enrollmentsnotself'] = 'Non-self enrollments';
 $string['enrollmentstatus'] = 'Enrollment status';
 $string['enrollmenttimeend'] = 'Enrollment end date';
 $string['enrollmenttimestart'] = 'Enrollment start date';
-$string['event_desc_core_event_user_enrolment_created'] = '{$a->relateduserfullname} was enrolled in <a href="{$a->eventurl}" title="View {$a->contextname}">{$a->contextname}</a>';
-$string['event_desc_generic'] = '{$a->userfullname} {$a->action} <a href="{$a->eventurl}" title="View {$a->contextname}">{$a->contextname}</a>';
+$string['event_desc_core_event_user_enrolment_created'] = '{$a->relateduserfullname} was enrolled in <a href="\'{$a->eventurl}\'" title="\'View {$a->contextname}\'">{$a->contextname}</a>';
+$string['event_desc_generic'] = '{$a->userfullname} {$a->action} <a href="\'{$a->eventurl}\'" title="View \'{$a->contextname}\'">{$a->contextname}</a>';
 $string['eventbutton'] = 'Event button';
 $string['eventclass'] = 'Event class';
 $string['eventcolor'] = 'Event color';
@@ -212,8 +212,8 @@ $string['none'] = 'None';
 $string['nonpublicdashboards'] = 'Hide public dashboards';
 $string['notauthorized'] = 'You do not have access to this dashboard.';
 $string['pagination_summary'] = 'Showing {$a->limit_from} - {$a->limit_to} of {$a->total}';
-$string['parentrole'] = 'Users I manage';
-$string['parentrole_help'] = 'Only includes users that the current user has a role assigned to. See "<a href="https://docs.moodle.org/39/en/Parent_role" target="_blank">Parent role</a>."';
+$string['relations'] = 'Relations';
+$string['relations_help'] = 'Includes users assigned specific user context roles (e.g., mentor, parent, line manager, coach).';
 $string['parseerror'] = 'Parse error. The content cannot be displayed.';
 $string['permissions'] = 'Restrict access to';
 $string['permissionscohort'] = 'Cohort';
@@ -259,6 +259,9 @@ $string['tablealias_g'] = 'Group';
 $string['tablealias_sl'] = 'Site logs';
 $string['tablealias_u'] = 'User';
 $string['tablealias_ue'] = 'User enrollment';
+$string['tablealias_ra'] = 'Role assignment';
+$string['tablealias_r'] = "Role";
+$string['tablealias_ctx'] = 'Context';
 $string['tags'] = 'Tags';
 $string['timesinceevent'] = 'Time since event';
 $string['titleoverride'] = 'Title override';
@@ -291,6 +294,7 @@ $string['backgroundimagefield'] = 'Background image';
 $string['status:completed'] = 'Completed';
 $string['status:inprogress'] = 'In Progress';
 $string['status:notyetstarted'] = 'Not yet started';
+$string['status:notcompleted'] = 'Not completed';
 $string['status:all'] = 'All';
 $string['status:enrolled'] = 'Enrolled';
 $string['widget:mycontacts'] = 'My Contacts';
@@ -334,6 +338,7 @@ $string['datasource:completions_data_source_help'] = 'Users compelted courses li
 $string['datasource:courses_data_source_help'] = 'List of available courses for the current user.';
 $string['datasource:dashboard_data_source_help'] = 'List of Dashboard';
 $string['datasource:logstore_data_source_help'] = 'Datasource of site logs';
+$string['datasource:roleassignments_data_source'] = "Role assignments";
 $string['confirmleavegroup'] = 'Do you really want to leave the group {$a}';
 $string['fieldalert'] = 'The chosen layout can not be customised';
 
@@ -394,6 +399,7 @@ $string['proficient'] = 'Proficient';
 $string['achieved'] = 'Achieved';
 $string['notachieved'] = 'Not achieved';
 $string['datasource:competency_widget'] = 'Skill graph widget';
+$string['datasource:competency_progress_widget'] = 'Skill competency widget';
 $string['competencyframework'] = 'Competency framework';
 $string['enrollment_options'] = 'Enrollment options';
 $string['enrollmentoptions:seeoptions'] = 'See options';
@@ -843,20 +849,163 @@ $string['users_mycohort'] = "Users in one of my cohorts";
 
 $string['currentcategory'] = 'Current Category';
 $string['dashicon'] = 'Icon';
-$string['dashicon_help'] = 'This icon shows onlu in the dashboards data source.';
+$string['dashicon_help'] = 'This icon shows only in the dashboards data source.';
 $string['dashthumbnailimg'] = 'Thumbnail image';
 $string['dashthumbnailimgurl'] = 'Thumbnail image URL';
 $string['dashthumbnailimg_help'] = "This thumbnail image shows only in dashboards data source";
 $string['dashbgimg'] = 'Background image';
 $string['dashbgimg_help'] = 'This background image used as background for the dashboard.';
-$string['coredashboard'] = "Core dashboard";
+$string['coredashboard'] = "Main dashboard";
 $string['backgroundimageurl'] = 'Background image URL';
 
-$string['border_option'] = "Border";
+$string['border_option'] = "Show border";
 $string['border_option_help'] = "You can add the border of dash block.";
 $string['bordervalue'] = "Border Value";
 
 
-$string['managedashaddonplugins'] = "Manage Dash addon plugins";
+$string['managedashaddonplugins'] = "Manage addons";
 $string['dashaddonpluginname'] = 'Dash addon name';
 $string['hideshow'] = 'Hide/Show';
+
+$string['maindashboard'] = "Main dashboard";
+$string['enterclasses'] = "Enter classes";
+// Permissions role context.
+$string['permissionsrolecontext'] = 'Role Context';
+$string['permissionsrolecontext_help'] = 'Select the context for which the user\'s role should be checked (Any context or system context only)';
+// ...Dashaddon skill graph strings.
+$string['managecapabilitymissing'] = 'Require capability "moodle/competency:competencymanage" to access the page is missing';
+$string['managecompentency'] = 'Manage competencies appearance';
+$string['totalprogress'] = 'Total progress';
+$string['setup'] = 'Setup';
+$string['compentenciesnotfound'] = 'Competency not found.';
+$string['competencyappearance'] = 'Competency appearances';
+$string['competencyheading'] = 'Setup competency appearance';
+$string['competencycolor'] = 'Competency color';
+$string['competencyimage'] = 'Competency image';
+$string['missingdatasource'] = "The datasources are missing. Please check them.";
+$string['viewactivity'] = "View activity";
+$string['activitybutton'] = "Activity button";
+$string['modulename'] = 'Module name';
+
+// ...Dashaddon calendar events.
+$string['calendareventsfallback'] = 'Calendar events fallback image';
+$string['calendareventsfallback_desc'] = 'Upload a image to display as fallback for site and other type of events';
+// ... Event table fields labels.
+$string['event'] = 'Event';
+$string['event:title'] = 'Event title';
+$string['event:type'] = 'Event type';
+$string['event:typefilter'] = 'Event type filter';
+// Event types.
+$string['event:typesite'] = 'Site';
+$string['event:typecourse'] = 'Course';
+$string['event:typegroup'] = 'Group';
+$string['event:typeuser'] = 'User';
+$string['event:typecategory'] = 'Course category';
+$string['event:typeother'] = 'Other';
+$string['filter:today'] = 'Today';
+$string['filter:upcoming'] = 'Upcoming';
+$string['filter:thisweek'] = 'This week';
+$string['filter:thismonth'] = 'This month';
+$string['event:filterdate'] = 'Date';
+// ...Filter day
+$string['event:filterday'] = 'Day of week';
+$string['filter:monday'] = 'Monday';
+$string['filter:tuesday'] = 'Tuesday';
+$string['filter:wednesday'] = 'Wednesday';
+$string['filter:thursday'] = 'Thursday';
+$string['filter:friday'] = 'Friday';
+$string['filter:saturday'] = 'Saturday';
+$string['filter:sunday'] = 'Sunday';
+// ...Conditions.
+$string['eventstatus'] = 'Event status';
+$string['eventcontext'] = 'Context of event';
+$string['eventactivitycompletion'] = 'Associated to an activity';
+$string['eventactivity:incomplete'] = 'Incomplete activities only';
+$string['eventactivity:both'] = 'Incomplete and complete activities';
+$string['event:contextevent'] = 'Context of event';
+$string['event:contextlinked'] = 'Context of event (linked) ';
+$string['event:description'] = 'Description';
+$string['event:gotoactivity'] = 'Go to activity';
+$string['event:location'] = 'Location';
+$string['event:startdate'] = 'Start date';
+$string['event:starttime'] = 'Start time';
+$string['event:enddate'] = 'End date';
+$string['event:endtime'] = 'End time';
+$string['event:duration'] = 'Event duration';
+$string['event:durationinminutes'] = 'Event duration in minutes ';
+$string['event:repeated'] = 'Repeated event';
+$string['event:status'] = 'Status';
+$string['event:color'] = 'Event color';
+$string['even:icon'] = 'Event icon';
+$string['event:image'] = 'Event image';
+$string['event:imagelinked'] = 'Event image (linked)';
+$string['event:imageurl'] = 'Event Image URL';
+// ...End of Dashaddon calendar.
+
+//On page navigation.
+$string['onpagenavigation'] = 'On page navigation';
+$string['includedblocks'] = 'Included blocks';
+$string['displaydashboardtitle'] = 'Display dashboard title';
+$string['displaycta'] = 'Display call to action';
+$string['ctalink'] = 'Call to action link';
+$string['customurl'] = 'Custom URL';
+$string['selectcampaign'] = 'Select campaign';
+$string['disabled'] = 'Disabled';
+$string['always'] = 'Always';
+$string['onlywhensticky'] = 'Only when sticky';
+$string['enrolmentoptions'] = 'Enrolment options';
+$string['campaign'] = 'Campaign';
+$string['shopurl'] = 'Shop URL';
+
+$string['restrictaccess'] = "Restrict access";
+$string['duplicatedashboard'] = "Duplicate dashboard";
+$string['copy'] = "Copy";
+$string['dashboardduplicated'] = "Duplicated dashboard successfully";
+
+$string['contextsettings'] = 'Context settings';
+$string['contexttype'] = 'Context type';
+$string['contextsystem'] = 'System';
+$string['contextcategory'] = 'Category';
+$string['contextcourse'] = 'Course';
+$string['selectcategory'] = 'Select category';
+$string['selectcourse'] = 'Select course';
+$string['nocategoryselected'] = 'No category selected';
+$string['nocourseselected'] = 'No course selected';
+$string['blocksnotfound'] = "The current dashboard does not contain any blocks.";
+$string['oneormoreblocks'] = "The dashboard requires more than one block.";
+$string['magicnotavailable'] = "The Magic authentication is not available for this site.";
+$string['customurltext'] = "Custom URL Text";
+
+$string['strctaenrolment'] = "View enrolment page";
+$string['strctacampaign'] = 'Registration';
+$string['strshopurl'] = 'View shop';
+$string['strcustomurl'] = "View URL";
+$string['nocampaignsareavailable'] = "No campaigns are available";
+$string['status:notenrolled'] = "Not enrolled";
+
+$string['widget:course_sections'] = 'Course sections';
+$string['widget:course_sections_help'] = 'Use this widget to interact with your course sections effortlessly.';
+$string['datasource:sections_widget'] = 'Course sections widget';
+$string['rolename'] = "Role name";
+$string['role_assignments'] = "Role assignments";
+$string['timemodified'] = "Time modified";
+
+$string['contextname'] = "Context name";
+$string['contexturl'] = "Context URL";
+$string['contextlevel'] = "Context level";
+$string['parent'] = "Parent";
+
+$string['systemcontext'] = "System";
+$string['usercontext'] = "User";
+$string['coursecatcontext'] = "Course Category";
+$string['coursecontext'] = "Course";
+$string['modulecontext'] = "Module";
+$string['blockcontext'] = "Block";
+
+$string['courseinformation'] = 'Course information';
+$string['originalrolename'] = "Original name";
+$string['strrole'] = "Role";
+$string['redirecttodashboard'] = "Redirect to dashboard";
+
+$string['managecoursecatedashboards'] = 'Manage course categorydata sources';
+$string['dash:managecoursecatedashboards'] = 'Manage course categorydata sources';
