@@ -995,7 +995,6 @@ $string['mobile_learningpath_help']  = 'Upload one or more files that will be av
 
 $string['assign_course'] = 'Assign course';
 $string['configure_zones'] = 'Configure zones';
-$string['configure_zones_title'] = 'Configure Learning Path Zones';
 $string['field:positioning'] = 'Positioning';
 $string['field:positioning_help'] = 'Determines how courses are positioned on the SVG. Choose "On the path" for traditional path-based positioning, or "In zones" to position courses in specific SVG elements.';
 $string['no_zones_found'] = 'No zones found in this SVG';
