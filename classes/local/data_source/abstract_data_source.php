@@ -247,7 +247,7 @@ abstract class abstract_data_source implements data_source_interface, \templatab
             $identifierselects = [];
             foreach ($this->get_available_fields() as $field) {
                 if ($field->has_attribute(identifier_attribute::class)) {
-                    $identifierselects[] = $field->get_select();
+                    $identifierselects[] = "COALESCE(" . $field->get_select() . ", '0')";
                 }
 
                 // Include the custom join for fields.
@@ -258,6 +258,7 @@ abstract class abstract_data_source implements data_source_interface, \templatab
             }
 
             $concat = $DB->sql_concat_join("'-'", $identifierselects);
+
             if (count($identifierselects) > 1) {
                 // Quick FIX - DASH-1128
                 // In Some cases the still the same unique id is generated even with multiple identifiers.
